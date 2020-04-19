@@ -1,3 +1,7 @@
+.get-user-info {
+  margin-top: 200rpx;
+}
+
 .team-list {
   width: 90%;
 }
