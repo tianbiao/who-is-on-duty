@@ -1,0 +1,25 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view> -->
+  <text>{{today}}</text>
+  <view wx:for="{{ondutyData}}" class="team-list" wx:key="name" wx:for-item="team">
+    <text class="team-name">Team: {{team.name}}</text>
+    <view wx:for="{{team.activities}}" class="activity-list" wx:key="name" wx:for-item="activity">
+      <text class="activity-name">Activity: {{activity.name}}</text>
+      <view wx:for="{{activity.participators}}" wx:key="id" wx:for-item="user">
+        <view wx:if="{{user === activity.onDutyUser}}" class="on-duty-user">
+          <text>{{user}}</text>
+        </view>
+        <view wx:else class="not-on-duty-user">
+          <text>{{user}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
