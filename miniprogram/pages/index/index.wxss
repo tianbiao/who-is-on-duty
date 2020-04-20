@@ -17,6 +17,10 @@
 .activity-name {
   margin: 0 20rpx;
 }
+.activity-setting {
+  float: right;
+  color: white;
+}
 .on-duty-user {
   background-color: red;
   font-size: 150rpx;

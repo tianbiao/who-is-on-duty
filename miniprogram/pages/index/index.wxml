@@ -8,6 +8,7 @@
         <text class="team-name">Team: {{team.name}}</text>
         <view wx:for="{{team.activities}}" class="activity-list" wx:key="name" wx:for-item="activity">
           <text class="activity-name">Activity: {{activity.name}}</text>
+          <text class="activity-setting" data-teamname='{{team.name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">更新活动</text>
           <view wx:for="{{activity.participators}}" wx:key="id" wx:for-item="user">
             <view wx:if="{{user === activity.onDutyUser}}" class="on-duty-user">
               <text>{{user}}</text>

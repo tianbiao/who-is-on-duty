@@ -12,9 +12,11 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   //事件处理函数
-  bindViewTap: function() {
+  manageActivity: function(event) {
+    const activity = event.currentTarget.dataset.activtityname
+    const team = event.currentTarget.dataset.teamname
     wx.navigateTo({
-      url: '../logs/logs'
+      url: '../activity/activity?team=' + team + '&activity=' + activity
     })
   },
   onLoad: function () {
@@ -70,6 +72,7 @@ Page({
         self.setData({
           ondutyData: res.data
         })
+        app.globalData.ondutyData = res.data;
      }
     })  
   }
