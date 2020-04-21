@@ -7,7 +7,7 @@
     {
       "name": "dailyRefresh",
       "type": "timer",
-      "config": "0 0 2 * * MON,TUE,WED,THU,FRI *"
+      "config": "0 1 0 * * MON,TUE,WED,THU,FRI *"
     }
   ]
 }
