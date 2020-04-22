@@ -8,8 +8,15 @@ Page({
     today: util.formatDate(new Date()),
     ondutyData: [],
     userInfo: {},
+    teamList: [],
+    team: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
+  },
+  selectTeam: function (event) {
+    this.setData({
+      team: e.detail.team
+    })
   },
   //事件处理函数
   manageActivity: function(event) {
@@ -70,7 +77,9 @@ Page({
       success: function(res) {
         console.log('Data', res.data)
         self.setData({
-          ondutyData: res.data
+          ondutyData: res.data,
+          teamList: res.data.map(team => (team.name)),
+          team: res.data[0]
         })
         app.globalData.ondutyData = res.data;
      }

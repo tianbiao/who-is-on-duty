@@ -1,23 +1,26 @@
 <!--index.wxml-->
-<view class="container">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="get-user-info"> 获取头像昵称 </button>
-    <block wx:else>
-      <text>Hi {{userInfo.nickName}}</text>
-      <text>{{today}}</text>
-      <view wx:for="{{ondutyData}}" class="team-list" wx:key="name" wx:for-item="team">
-        <text class="team-name">Team: {{team.name}}</text>
-        <view wx:for="{{team.activities}}" class="activity-list" wx:key="name" wx:for-item="activity">
-          <text class="activity-name">Activity: {{activity.name}}</text>
-          <text class="activity-setting" data-teamname='{{team.name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">更新活动</text>
-          <view wx:for="{{activity.participators}}" wx:key="id" wx:for-item="user">
-            <view wx:if="{{user === activity.onDutyUser}}" class="on-duty-user">
-              <text>{{user}}</text>
-            </view>
-            <view wx:else class="not-on-duty-user">
-              <text>{{user}}</text>
-            </view>
-          </view>
+<view class="padding bg-white">
+  <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="get-user-info"> 获取头像昵称 </button>
+  <block wx:else>
+    <view class="cu-form-group margin-bottom solids-bottom">
+      <view class="title">Team: </view>
+      <picker bindchange="PickerChange" value="{{team}}" range="{{teamList}}">
+        <view class="picker">
+          {{team?team.name:'没有Team?'}}
+        </view>
+      </picker>
+    </view>
+
+    <view wx:for="{{team.activities}}" class="activity-list" wx:key="name" wx:for-item="activity">
+      <view class="bg-img bg-mask text-white radius" style="background-image: url('{{activity.bgimg}}');height: 250rpx;" data-teamname='{{team.name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">
+        <view class="padding-lr-xl padding-tb-sm">
+          <view class="text-xl padding-tb-xs">{{activity.name}}</view>
+          <view class="text-df padding-tb-xs">{{activity.desc}}</view>
+        </view>
+        <view class="padding-lr-xl padding-tb text-sl text-right" style="position: absolute; bottom: 0; right: 0;">
+          {{activity.onDutyUser}}
         </view>
       </view>
-    </block>
+    </view>
+  </block>
 </view>
