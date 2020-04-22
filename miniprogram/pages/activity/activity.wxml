@@ -1,10 +1,16 @@
 <!--miniprogram/pages/activity.wxml-->
-<view>team: {{team.name}}</view>
-<view>activity: {{activity.name}}</view>
-<view class="changeable-section-title">修改今日值班人</view>
-<picker bindchange="changeOnDutyUser" value="{{index}}" range="{{participators}}">
-  <view class="picker-value">
-    {{participators[index]}}
-  </view>
-</picker>
-<button type="primary" bindtap="save" disabled="{{disabled}}">保存</button>
+<view class="margin text-xxl">
+  <text class="cuIcon-calendar margin-lr-xs" />
+  <text>{{activity.name}}</text>
+</view>
+<view class="cu-form-group solids-bottom">
+  <view class="title">今日值班</view>
+  <picker bindchange="changeOnDutyUser" value="{{index}}" range="{{participators}}">
+    <view class="picker">
+      {{participators[index]}}
+    </view>
+  </picker>
+</view>
+
+<button class="cu-btn bg-blue block lg margin-lg" bindtap="save" disabled="{{disabled}}">保存</button>
+

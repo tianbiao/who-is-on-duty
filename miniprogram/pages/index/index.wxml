@@ -1,26 +1,36 @@
 <!--index.wxml-->
-<view class="padding bg-white">
-  <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="get-user-info"> 获取头像昵称 </button>
+<view class="padding-bottom">
+  <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="margin-top-200"> 获取头像昵称</button>
   <block wx:else>
-    <view class="cu-form-group margin-bottom solids-bottom">
-      <view class="title">Team: </view>
-      <picker bindchange="selectTeam" value="{{teamIdx}}" range="{{teamList}}">
-        <view class="picker">
-          {{teamIdx!=null?teamList[teamIdx]:'No Team'}}
+    <swiper style="height: 1000rpx;" indicator-dots="true">
+      <swiper-item wx:for="{{ondutyData}}" wx:for-item="team">
+        <view class="padding-lr">
+          <view class="margin-tb flex text-xxl align-center">
+            <view class="flex-sub">
+              <text class="{{team._id?'cuIcon-group':'cuIcon-emoji'}} margin-lr-xs" />
+              <text>{{team.name}}</text>
+            </view>
+            <view wx:if="{{team._id}}">
+              <text class="cuIcon-favor margin-lr-xs" />
+              <text class="cuIcon-settings margin-lr-xs" />
+            </view>
+          </view>
+          <view wx:for="{{team.activities}}" wx:key="name" wx:for-item="activity"
+                class="margin-tb bg-img bg-mask text-white radius flex justify-between padding-tb padding-lr-xl" style="background-image: url('{{activity.bgimg}}'); height: 250rpx;"
+                data-teamname='{{team.name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">
+            <view class="flex-sub margin-right">
+              <view class="text-xl padding-tb-xs">{{activity.name}}</view>
+              <view class="text-df padding-tb-xs">{{activity.desc}}</view>
+            </view>
+            <view class="text-sl self-end">
+              {{activity.onDutyUser}}
+            </view>
+          </view>
+          <view wx:if="{{team.activities.length == 0}}" class="text-center margin-top-200">
+            今天没有值班
+          </view>
         </view>
-      </picker>
-    </view>
-
-    <view wx:for="{{ondutyData[teamIdx].activities}}" class="activity-list" wx:key="name" wx:for-item="activity">
-      <view class="bg-img bg-mask text-white radius" style="background-image: url('{{activity.bgimg}}');height: 250rpx;" data-teamname='{{ondutyData[teamIdx].name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">
-        <view class="padding-lr-xl padding-tb-sm">
-          <view class="text-xl padding-tb-xs">{{activity.name}}</view>
-          <view class="text-df padding-tb-xs">{{activity.desc}}</view>
-        </view>
-        <view class="padding-lr-xl padding-tb text-sl text-right" style="position: absolute; bottom: 0; right: 0;">
-          {{activity.onDutyUser}}
-        </view>
-      </view>
-    </view>
+      </swiper-item>
+    </swiper>
   </block>
 </view>
