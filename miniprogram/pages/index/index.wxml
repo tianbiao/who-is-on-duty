@@ -4,15 +4,15 @@
   <block wx:else>
     <view class="cu-form-group margin-bottom solids-bottom">
       <view class="title">Team: </view>
-      <picker bindchange="PickerChange" value="{{team}}" range="{{teamList}}">
+      <picker bindchange="selectTeam" value="{{teamIdx}}" range="{{teamList}}">
         <view class="picker">
-          {{team?team.name:'没有Team?'}}
+          {{teamIdx!=null?teamList[teamIdx]:'No Team'}}
         </view>
       </picker>
     </view>
 
-    <view wx:for="{{team.activities}}" class="activity-list" wx:key="name" wx:for-item="activity">
-      <view class="bg-img bg-mask text-white radius" style="background-image: url('{{activity.bgimg}}');height: 250rpx;" data-teamname='{{team.name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">
+    <view wx:for="{{ondutyData[teamIdx].activities}}" class="activity-list" wx:key="name" wx:for-item="activity">
+      <view class="bg-img bg-mask text-white radius" style="background-image: url('{{activity.bgimg}}');height: 250rpx;" data-teamname='{{ondutyData[teamIdx].name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">
         <view class="padding-lr-xl padding-tb-sm">
           <view class="text-xl padding-tb-xs">{{activity.name}}</view>
           <view class="text-df padding-tb-xs">{{activity.desc}}</view>

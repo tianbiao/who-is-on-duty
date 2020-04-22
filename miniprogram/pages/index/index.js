@@ -9,13 +9,13 @@ Page({
     ondutyData: [],
     userInfo: {},
     teamList: [],
-    team: {},
+    teamIdx: null,
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   selectTeam: function (event) {
     this.setData({
-      team: e.detail.team
+      teamIdx: event.detail.value
     })
   },
   //事件处理函数
@@ -79,7 +79,7 @@ Page({
         self.setData({
           ondutyData: res.data,
           teamList: res.data.map(team => (team.name)),
-          team: res.data[0]
+          teamIdx: 0
         })
         app.globalData.ondutyData = res.data;
      }
