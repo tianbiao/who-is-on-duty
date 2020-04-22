@@ -71,9 +71,11 @@ Page({
 
   loadActivities: function() {
     const self = this;
-    db.collection('teams').where({
-      name: 'PSA'
-    }).get({
+    db.collection('teams')
+    // .where({
+    //   name: 'PSA'
+    // })
+    .get({
       success: function(res) {
         console.log('Data', res.data)
         self.setData({
