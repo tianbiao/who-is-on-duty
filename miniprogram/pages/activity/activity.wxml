@@ -10,14 +10,13 @@
     </view>
   </picker>
 </view>
-<view class="cu-form-group solids-bottom">
-  <view class="title">参与人</view>
-  <checkbox-group class="changeable-checkbox-group" bindchange="changedParticipators">
-    <label wx:for="{{teamMembers}}" wx:key="id" >
-      <checkbox value="{{item.name}}" checked="{{item.isParticipator}}">{{item.name}}</checkbox>
-    </label>
-  </checkbox-group>
-</view>
+<view class="margin title">参与人</view>
+<checkbox-group class="cu-form-group solids-bottom flex-wrap justify-start padding-tb" bindchange="changedParticipators">
+  <label wx:for="{{teamMembers}}" wx:key="id">
+    <checkbox value="{{item.name}}" checked="{{item.isParticipator}}"></checkbox>
+    <view class="cu-btn round lines-green margin-right-sm margin-bottom-sm">{{item.name}}</view>
+  </label>
+</checkbox-group>
 
 <button class="cu-btn bg-blue block lg margin-lg" bindtap="save" disabled="{{disabled}}">保存</button>
 

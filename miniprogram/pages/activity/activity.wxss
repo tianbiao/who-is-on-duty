@@ -1,6 +1,8 @@
-checkbox .wx-checkbox-input{
-  border-radius: 50%;
-  width: 40rpx; 
-  height: 40rpx; 
-  margin: 10rpx;
+checkbox {
+  display: none;
+}
+
+checkbox[checked] + view.cu-btn {
+  background-color: var(--green);
+  color: var(--white);
 }
