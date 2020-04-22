@@ -1,4 +1,3 @@
-<!--miniprogram/pages/activity.wxml-->
 <view class="margin text-xxl">
   <text class="cuIcon-calendar margin-lr-xs" />
   <text>{{activity.name}}</text>
@@ -11,6 +10,15 @@
     </view>
   </picker>
 </view>
+<view class="cu-form-group solids-bottom">
+  <view class="title">参与人</view>
+  <checkbox-group class="changeable-checkbox-group" bindchange="changedParticipators">
+    <label wx:for="{{teamMembers}}" wx:key="id" >
+      <checkbox value="{{item.name}}" checked="{{item.isParticipator}}">{{item.name}}</checkbox>
+    </label>
+  </checkbox-group>
+</view>
 
 <button class="cu-btn bg-blue block lg margin-lg" bindtap="save" disabled="{{disabled}}">保存</button>
+
 
