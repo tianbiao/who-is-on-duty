@@ -1,11 +1,11 @@
 <!--index.wxml-->
-<view class="padding-bottom">
+<view>
   <button type="primary" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="margin-top-200"> 获取昵称</button>
   <block wx:else>
-    <swiper style="height: 1000rpx;" indicator-dots="true">
-      <swiper-item wx:for="{{ondutyData}}" wx:for-item="team" wx:key="name">
-        <view class="padding-lr">
-          <view class="margin-tb flex text-xxl align-center">
+    <swiper style="height: 100vh;" indicator-dots="true">
+      <swiper-item wx:for="{{ondutyData}}" wx:for-item="team" wx:key="name" style="overflow-y: auto;">
+        <view class="padding margin-bottom-xl">
+          <view class="margin-bottom flex text-xxl align-center">
             <view class="flex-sub">
               <text class="{{team._id?'cuIcon-group':'cuIcon-emoji'}} margin-lr-xs" />
               <text>{{team.name}}</text>
