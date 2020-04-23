@@ -21,11 +21,8 @@ Page({
       teamMembers: team.members.map(member => ({name: member, isParticipator: activity.participators.includes(member)})),
       index: activity.participators.findIndex(e => e === activity.onDutyUser)
     })
-
-    console.log('333:', this.data.team)
   },
   changeOnDutyUser: function(e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       index: e.detail.value
     })
@@ -36,7 +33,6 @@ Page({
     }
   },
   changedParticipators: function(e) {
-    console.log('changedParticipators checkBox:', e.detail.value)
     const currentOnDutyUser = this.data.participators[this.data.index]
     const currentOnDutyUserIndex = e.detail.value.findIndex(user => user === currentOnDutyUser);
     this.setData({
