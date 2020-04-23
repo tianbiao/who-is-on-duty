@@ -1,9 +1,9 @@
 <!--index.wxml-->
 <view class="padding-bottom">
-  <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="margin-top-200"> 获取头像昵称</button>
+  <button type="primary" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="margin-top-200"> 获取昵称</button>
   <block wx:else>
     <swiper style="height: 1000rpx;" indicator-dots="true">
-      <swiper-item wx:for="{{ondutyData}}" wx:for-item="team">
+      <swiper-item wx:for="{{ondutyData}}" wx:for-item="team" wx:key="name">
         <view class="padding-lr">
           <view class="margin-tb flex text-xxl align-center">
             <view class="flex-sub">

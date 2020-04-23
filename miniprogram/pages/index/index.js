@@ -2,6 +2,7 @@ const util = require('../../utils/util.js');
 
 const app = getApp();
 const db = wx.cloud.database();
+const _ = db.command
 
 Page({
   data: {
@@ -20,54 +21,65 @@ Page({
     });
   },
   onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true,
-      });
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true,
-        });
-      };
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo;
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true,
-          });
-        },
-      });
-    }
-
-    this.loadActivities();
+    this.getUserOpenId()
 
     wx.showShareMenu({
       withShareTicket: true,
     });
   },
-  getUserInfo: function (e) {
-    console.log(e);
-    app.globalData.userInfo = e.detail.userInfo;
+  async getUserInfo(e) {
+    console.log(e)
+    app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true,
-    });
+    })
+    await this.createOrUpdateUser(e.detail.userInfo.nickName)
+    this.loadActivities()
   },
+  async getUserOpenId() {
+    const result = await wx.cloud.callFunction({
+      name: 'getOpenId'
+    })
+    app.globalData.userOpenId = result.result.openid
 
-  loadActivities: function () {
+    const userDate = await this.findUserByOpenId()
+    if(userDate.length == 0){
+    } else {
+      app.globalData.userName = userDate[0].name
+      app.globalData.user = userDate[0]
+      this.setData({
+        hasUserInfo: true
+      });
+      this.loadActivities()
+    }
+  },
+  async findUserByOpenId(openId) {
+    const userQueryResult = await db.collection('users').where({
+      _openid: app.globalData.userOpenId
+    }).get()
+    return userQueryResult.data
+  },
+  async createOrUpdateUser(name) {
+    await db.collection('users').add({
+      data: {
+        name: name
+      }
+    })
+  },
+  updateUserName(name) {
+    db.collection('users').doc(app.globalData.userOpenId).update({
+      data: {
+        name: name
+      }
+    })
+  },
+  loadActivities() {
     const self = this;
     db.collection('teams')
-    // .where({
-    //   name: 'PSA'
-    // })
+    .where({
+      name: _.in(app.globalData.user.teams)
+    })
       .get({
         success: function (res) {
           console.log('Data', res.data);
