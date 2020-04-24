@@ -2,13 +2,12 @@
 <view>
   <button type="primary" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="margin-top-200"> 获取昵称</button>
   <block wx:else>
-    <swiper style="height: 100vh;" indicator-dots="true">
-      <swiper-item wx:for="{{ondutyData}}" wx:for-item="team" wx:key="name" style="overflow-y: auto;">
+    <swiper class="height-100vh" indicator-dots="true">
+      <swiper-item wx:for="{{ondutyData}}" wx:for-item="team" wx:key="name" class="overflow-y">
         <view class="padding margin-bottom-xl">
-          <view class="margin-bottom flex text-xxl align-center">
+          <view class="margin-bottom margin-left-xs flex text-xxl align-center">
             <view class="flex-sub">
-              <text class="{{team._id?'cuIcon-group':'cuIcon-emoji'}} margin-lr-xs" />
-              <text>{{team.name}}</text>
+              <text class="{{team._id?'cuIcon-group':'cuIcon-emoji'}} with-space">{{team.name}}</text>
             </view>
             <view wx:if="{{team._id}}">
               <text class="cuIcon-favor margin-lr-xs" />
@@ -16,7 +15,7 @@
             </view>
           </view>
           <view wx:for="{{team.activities}}" wx:key="name" wx:for-item="activity"
-                class="margin-tb bg-img bg-mask text-white radius flex justify-between padding-tb padding-lr-xl" style="background-image: url('{{activity.bgimg}}'); height: 250rpx;"
+                class="bg-img bg-mask text-white padding-tb padding-lr-xl activity" style="background-image: url('{{activity.bgimg}}');"
                 data-teamname='{{team.name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">
             <view class="flex-sub margin-right">
               <view class="text-xl padding-tb-xs">{{activity.name}}</view>
@@ -26,7 +25,7 @@
               {{activity.onDutyUser}}
             </view>
           </view>
-          <view wx:if="{{team.activities.length == 0}}" class="text-center margin-top-200">
+          <view wx:if="{{team.activities.length == 0}}" class="align-center justify-center dashed activity">
             今天没有值班
           </view>
         </view>
