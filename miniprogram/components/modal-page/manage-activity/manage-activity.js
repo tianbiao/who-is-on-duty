@@ -8,7 +8,7 @@ Component({
   data: {
     name: '',
     desc: '',
-    onDutyUser: '',
+    onDutyUser: {},
     onDutyIdx: 0,
     participators: [],
     bgimg: '',
@@ -37,11 +37,13 @@ Component({
         bgimg: activity.bgimg,
         bgimgIdx: bgimgList.indexOf(activity.bgimg),
         participators: activity.participators,
-        teamMembers: activity.teamMembers.map(name => ({
-          name,
-          isParticipator: activity.participators.includes(name),
-        })),
+        teamMembers: activity.teamMembers.map(user => ({
+          user,
+          isParticipator: activity.participators.filter(u => user._id === u._id).length > 0,
+        }))
       });
+      console.log('participators:', activity.participators)
+      console.log('teamMembers:', this.data.teamMembers)
     },
     ready: function () {
       const query = wx.createSelectorQuery().in(this);

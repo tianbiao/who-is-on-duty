@@ -24,8 +24,8 @@ Page({
     this.loadData() 
   },
   loadData() {
-    if(app.globalData.ondutyData){
-      const team = app.globalData.ondutyData.find(t => t._id === this.data.teamid)
+    if(app.globalData.teams){
+      const team = app.globalData.teams.find(t => t._id === this.data.teamid)
       if(team){
         this.setData({
           team: team,
@@ -56,11 +56,7 @@ Page({
         _id: _.in(app.globalData.user.teams)
       }).get()
     const ondutyData = teamQueryResult.data
-    ondutyData.unshift({
-      name: '我的值班',
-      activities: [],
-    });
-    app.globalData.ondutyData = ondutyData
+    app.globalData.teams = ondutyData
     const team = ondutyData.find(t => t._id === this.data.teamid)
     this.setData({
       team: team,

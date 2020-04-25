@@ -9,7 +9,7 @@
     <view class="text-df padding-tb-xs">{{desc}}</view>
   </view>
   <view class="text-sl self-end">
-    {{onDutyUser}}
+    {{onDutyUser.name}}
   </view>
 </view>
 <view wx:else class="radius flex padding-tb padding-lr-xl activity-card {{noMargin ? 'margin-lr' : 'margin'}} align-center justify-center dashed">

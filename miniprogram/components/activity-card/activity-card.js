@@ -8,19 +8,19 @@ Component({
     _id: String,
     name: String,
     desc: String,
-    onDutyUser: String,
+    onDutyUser: Object,
     bgimg: String,
     participators: Array,
   },
   lifetimes: {
     attached: function () {
-      const { _id, name, desc, onDutyUser, bgimg, participators, activity } = this.data;
+      const { _id, name, desc, on_duty_user, bgimg, participators, activity } = this.data;
       if (activity) {
         this.setData({
           _id: _id || activity._id,
           name: name || activity.name,
           desc: desc || activity.desc,
-          onDutyUser: onDutyUser || activity.onDutyUser,
+          onDutyUser: on_duty_user || activity.on_duty_user,
           bgimg: bgimg || activity.bgimg,
           participators: participators.length > 0 ? participators : activity.participators,
         });

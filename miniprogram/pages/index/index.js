@@ -6,6 +6,7 @@ Page({
   data: {
     today: util.formatDate(new Date()),
     myTeams: [],
+    users: [],
     myActivities: [],
     hasUserInfo: false,
     modal: {
@@ -61,9 +62,10 @@ Page({
     });
   },
   loadData() {
-    if (app.globalData.ondutyData) {
+    if (app.globalData.teams) {
       this.setData({
-        myTeams: app.globalData.ondutyData,
+        myTeams: app.globalData.teams,
+        myActivities: app.globalData.activities.filter(a => a.on_duty_user._id === app.globalData.user._id),
         hasUserInfo: true,
       });
     }

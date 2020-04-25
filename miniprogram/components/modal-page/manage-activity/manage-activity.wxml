@@ -10,9 +10,9 @@
     </view>
     <view class="cu-form-group">
       <view class="title cuIcon-selection with-space">今日值班</view>
-      <picker bindchange="changeOnDutyUser" value="{{onDutyIdx}}" range="{{participators}}">
+      <picker bindchange="changeOnDutyUser" value="{{onDutyIdx}}" range="{{participators}}" range-key="name">
         <view class="picker">
-          {{onDutyUser}}
+          {{onDutyUser.name}}
         </view>
       </picker>
     </view>
@@ -23,10 +23,10 @@
     </view>
     <checkbox-group class="padding-bottom-xs padding-lr-sm team-members bg-white flex flex-wrap justify-between" bindchange="changedParticipators">
       <label wx:for="{{teamMembers}}" wx:key="id">
-        <checkbox class="hide" value="{{item.name}}" checked="{{item.isParticipator}}"></checkbox>
+        <checkbox class="hide" value="{{item.user.name}}" checked="{{item.isParticipator}}"></checkbox>
         <view class="cu-btn radius flex-sub lines-black margin-lr-xs margin-bottom-sm team-member"
               style="background-size: {{bgSize}};background-position: {{item.x}}px {{item.y}}px;">
-          {{item.name}}
+          {{item.user.name}}
         </view>
       </label>
       <view id="flex-wrap-fix" class="flex-sub {{flexWrapFix?'':'hide'}}" />
