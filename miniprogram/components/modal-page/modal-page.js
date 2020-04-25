@@ -32,17 +32,8 @@ Component({
     },
   },
   methods: {
-    triggerClose: function () {
-      this.triggerEvent('close', {});
-    },
-    triggerSave: function () {
-      this.triggerEvent('save', this.data.modal.data);
-    },
-    toggleSave: function (event) {
-      console.log(event);
-      this.setData({
-        disableSave: event.detail.disableSave,
-      });
+    passEvent: function (event) {
+      this.triggerEvent(event.type, event.detail);
     },
   },
 });

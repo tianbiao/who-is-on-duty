@@ -46,11 +46,5 @@
   background-color: #f8f8f8;
 }
 
-.scroll-y {
-  overflow-y: auto;
-}
 
-.margin-lr-15 {
-  margin-left: 15rpx !important;
-  margin-right: 15rpx !important;
-}
+

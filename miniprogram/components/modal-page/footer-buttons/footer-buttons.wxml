@@ -1,0 +1,4 @@
+<view class="flex justify-between margin-lr-15">
+  <button class="cu-btn line-black radius flex-sub lg margin-tb-lg margin-lr-15" bindtap="triggerCancel">取消</button>
+  <button class="cu-btn bg-black radius flex-sub lg margin-tb-lg margin-lr-15" disabled="{{disableSave}}" bindtap="triggerSave">保存</button>
+</view>

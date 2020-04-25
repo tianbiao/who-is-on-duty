@@ -22,17 +22,20 @@ Component({
     ],
     teamMembers: [],
     flexWrapFix: true,
+    disableSave: true,
   },
   lifetimes: {
     attached: function () {
       const { activity, bgimgList } = this.data;
       console.log(activity);
       this.setData({
+        disableSave: true,
         name: activity.name,
         desc: activity.desc,
         onDutyUser: activity.onDutyUser,
-        bgimgIdx: bgimgList.indexOf(activity.bgimg),
         onDutyIdx: activity.participators.indexOf(activity.onDutyUser),
+        bgimg: activity.bgimg,
+        bgimgIdx: bgimgList.indexOf(activity.bgimg),
         participators: activity.participators,
         teamMembers: activity.teamMembers.map(name => ({
           name,
@@ -61,32 +64,64 @@ Component({
       });
     },
   },
-  observer: {
-    // 'participators': function () {
-    //   this.setData({
-    //
-    //   })
-    // }
+  observers: {
+    'name, desc, onDutyUser, participators, bgimg': function (name, desc, onDutyUser, participators, bgimg) {
+      const { activity } = this.data;
+      if (
+        name !== activity.name
+        || desc !== activity.desc
+        || onDutyUser !== activity.onDutyUser
+        || participators !== activity.participators
+        || bgimg !== activity.bgimg
+      ) {
+        this.setData({ disableSave: participators.length === 0 });
+      } else {
+        this.setData({ disableSave: true });
+      }
+    },
   },
   methods: {
+    changeName: function (event) {
+      this.setData({
+        name: event.detail.value,
+      });
+    },
+    changeDesc: function (event) {
+      this.setData({
+        desc: event.detail.value,
+      });
+    },
     changeOnDutyUser: function (event) {
-      const { participators, activity: { onDutyUser }, onDutyIdx } = this.data;
+      const { participators } = this.data;
       this.setData({
         onDutyIdx: event.detail.value,
+        onDutyUser: participators[event.detail.value],
       });
-      if (participators[onDutyIdx] !== onDutyUser) {
-        this.triggerEvent('toggleSave', { disableSave: false });
-      }
     },
     changedParticipators: function (event) {
       const { participators, onDutyIdx } = this.data;
       const currentOnDutyUser = participators[onDutyIdx];
       const currentOnDutyUserIndex = event.detail.value.findIndex(user => user === currentOnDutyUser);
+      const participatorsNew = event.detail.value;
+      const onDutyIdxNew = currentOnDutyUserIndex < 0 ? 0 : currentOnDutyUserIndex;
       this.setData({
-        participators: event.detail.value,
-        onDutyIdx: currentOnDutyUserIndex < 0 ? 0 : currentOnDutyUserIndex,
+        participators: participatorsNew,
+        onDutyIdx: onDutyIdxNew,
+        onDutyUser: participatorsNew[onDutyIdxNew],
       });
-      this.triggerEvent('toggleSave', { disableSave: event.detail.value.length === 0 });
+    },
+    changeBgimg: function (event) {
+      const { bgimgList } = this.data;
+      this.setData({
+        bgimgIdx: event.detail.current,
+        bgimg: bgimgList[event.detail.current],
+      });
+    },
+    cancel: function () {
+      this.triggerEvent('cancel');
+    },
+    save: function () {
+      this.triggerEvent('save', this.data);
     },
   },
 });

@@ -1,0 +1,4 @@
+.margin-lr-15 {
+  margin-left: 15rpx !important;
+  margin-right: 15rpx !important;
+}

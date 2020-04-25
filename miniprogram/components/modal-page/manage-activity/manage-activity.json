@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "activity-card": "../../activity-card/activity-card"
+    "activity-card": "../../activity-card/activity-card",
+    "footer-buttons": "../footer-buttons/footer-buttons"
   }
 }
