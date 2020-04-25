@@ -3,10 +3,6 @@
 @import "colorui/icon.wxss";
 
 
-.height-100vh {
-  height: 100vh;
-}
-
 .margin-top-200 {
   margin-top: 200rpx;
 }
