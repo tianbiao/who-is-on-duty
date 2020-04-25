@@ -5,7 +5,7 @@ loading
   <view class="title cuIcon-comment text-xxl align-center">注册</view>
   <view class="cu-form-group">
     <view class="title cuIcon-comment with-space-l">姓名</view>
-    <input value="{{name}}" bindinput="changeName" auto-focus maxlength="20" placeholder="允许输入字符长度为3-20"></input>
+    <input value="{{name}}" bindinput="changeName" auto-focus maxlength="{{maxNameLength}}" placeholder="允许输入字符长度为{{minNameLength}}-{{maxNameLength}}"></input>
   </view>
   <text>提示: 建议使用真实姓名方便排班</text>
   <button type="primary" class="cu-btn bg-black block lg margin-lg" bindtap="createUser" disabled="{{disabledSaveBtn}}">确认</button>

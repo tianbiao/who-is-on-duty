@@ -7,15 +7,13 @@ Component({
   properties: {
 
   },
-
-  /**
-   * 组件的初始数据
-   */
   data: {
     hasUser: false,
     name: '',
     loading: true,
-    disabledSaveBtn: true
+    disabledSaveBtn: true,
+    minNameLength: 2,
+    maxNameLength: 20,
   },
 
   lifetimes: {
@@ -57,7 +55,7 @@ Component({
     changeName(e) {
       this.setData({
         name: e.detail.value,
-        disabledSaveBtn: e.detail.value.length < 3
+        disabledSaveBtn: e.detail.value.length < this.data.minNameLength
       })
     },
     async createUser() {
