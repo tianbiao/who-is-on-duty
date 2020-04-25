@@ -1,0 +1,8 @@
+.activity-card {
+  height: 250rpx;
+}
+
+.activity-card::after {
+  border-width: 4rpx;
+  border-color: var(--black);
+}

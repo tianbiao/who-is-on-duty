@@ -1,0 +1,13 @@
+<scroll-view scroll-y class="height-entire">
+  <view class="padding-top padding-bottom-xl">
+    <team-header team="{{team}}" name="{{name}}" bind:favor="passEvent" bind:settings="passEvent" />
+    <activity-card
+        wx:for="{{activities}}"
+        wx:key="name"
+        wx:for-item="activity"
+        activity="{{activity}}"
+        bind:activity="manageActivity"
+    />
+    <activity-card wx:if="{{activities.length == 0}}" />
+  </view>
+</scroll-view>

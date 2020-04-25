@@ -1,0 +1,9 @@
+<view class="margin-bottom padding-lr flex text-xxl align-center">
+  <view class="flex-sub">
+    <text class="{{_id?'cuIcon-group':'cuIcon-emoji'}} with-space">{{name}}</text>
+  </view>
+  <view>
+    <text wx:if="{{_id}}" class="cuIcon-favor margin-lr-xs" bindtap="triggerFavor" />
+    <text class="cuIcon-settings margin-lr-xs" bindtap="triggerSettings" />
+  </view>
+</view>

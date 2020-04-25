@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "team-header": "team-header/team-header",
+    "activity-card": "../activity-card/activity-card"
+  }
+}
