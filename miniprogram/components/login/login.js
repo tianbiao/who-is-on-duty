@@ -15,7 +15,7 @@ Component({
     hasUser: false,
     name: '',
     loading: true,
-    disabledSaveBtn: false
+    disabledSaveBtn: true
   },
 
   lifetimes: {
@@ -56,7 +56,8 @@ Component({
     },
     changeName(e) {
       this.setData({
-        name: e.detail.value
+        name: e.detail.value,
+        disabledSaveBtn: e.detail.value.length < 3
       })
     },
     async createUser() {
