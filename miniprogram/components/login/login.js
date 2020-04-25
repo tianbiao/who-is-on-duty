@@ -31,7 +31,7 @@ Component({
         name: 'getOpenId'
       })
       app.globalData.userOpenId = result.result.openid
-      
+
       const userData = await this.findUserByOpenId()
       if(userData.length == 0){
         this.setData({
@@ -82,13 +82,9 @@ Component({
         _id: _.in(app.globalData.user.teams)
       }).get()
       const ondutyData = teamQueryResult.data
-      ondutyData.unshift({
-        name: '我的值班',
-        activities: [],
-      });
       app.globalData.ondutyData = ondutyData;
       this.triggerEvent("load")
     }
   }
-  
+
 })

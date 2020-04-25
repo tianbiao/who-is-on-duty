@@ -11,31 +11,9 @@
   margin-top: 200rpx;
 }
 
-.overflow-y {
-  overflow-y: auto;
-}
-
 .with-space[class*="cuIcon-"]::before {
-  margin-right: 0.3em;
+  margin-right: 15rpx;
 }
 
-.with-space-l[class*="cuIcon-"]::before {
-  margin-right: 0.5em;
-}
 
-.hide {
-  display: none;
-}
 
-.activity {
-  display: flex;
-  margin-top: 30rpx;
-  margin-bottom: 30rpx;
-  border-radius: 6rpx;
-  height: 250rpx;
-}
-
-.activity::after {
-  border-width: 4rpx;
-  border-color: var(--black);
-}

@@ -1,5 +1,7 @@
 {
   "usingComponents": {
+    "swiper-page": "../../components/swiper-page/swiper-page",
+    "modal-page": "../../components/modal-page/modal-page",
     "login": "../../components/login/login"
   }
 }

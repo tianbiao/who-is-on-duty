@@ -1,0 +1,56 @@
+.modal {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: scale(1.2);
+  transition-duration: 0.4s;
+}
+
+.modal.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.modal .dialog {
+  position: absolute;
+  transition-duration: 0.4s;
+}
+
+.modal.show .bottom.dialog {
+  bottom: 0;
+}
+
+.modal .bottom.dialog {
+  bottom: -100%;
+}
+
+.modal.show .top.dialog {
+  top: 0;
+}
+
+.modal .top.dialog {
+  top: -100%;
+}
+
+.entire-page {
+  height: 100%;
+  width: 100%;
+  background-color: #f8f8f8;
+}
+
+.scroll-y {
+  overflow-y: auto;
+}
+
+.margin-lr-15 {
+  margin-left: 15rpx !important;
+  margin-right: 15rpx !important;
+}

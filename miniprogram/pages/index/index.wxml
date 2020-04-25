@@ -1,32 +1,12 @@
-<login wx:if="{{!hasUserInfo}}" bind:load="loadData"/>
-<view wx:else>
-    <swiper class="height-100vh" indicator-dots="true">
-      <swiper-item wx:for="{{ondutyData}}" wx:for-item="team" wx:key="name" class="overflow-y">
-        <view class="padding margin-bottom-xl">
-          <view class="margin-bottom margin-left-xs flex text-xxl align-center">
-            <view class="flex-sub">
-              <text class="{{team._id?'cuIcon-group':'cuIcon-emoji'}} with-space">{{team.name}}</text>
-            </view>
-            <view wx:if="{{team._id}}">
-              <text class="cuIcon-favor margin-lr-xs" />
-              <text class="cuIcon-settings margin-lr-xs" data-teamid='{{team._id}}' bindtap="manageTeam"/>
-            </view>
-          </view>
-          <view wx:for="{{team.activities}}" wx:key="name" wx:for-item="activity"
-                class="bg-img bg-mask text-white padding-tb padding-lr-xl activity" style="background-image: url('{{activity.bgimg}}');"
-                data-teamname='{{team.name}}' data-activtityname='{{activity.name}}' bindtap="manageActivity">
-            <view class="flex-sub margin-right">
-              <view class="text-xl padding-tb-xs">{{activity.name}}</view>
-              <view class="text-df padding-tb-xs">{{activity.desc}}</view>
-            </view>
-            <view class="text-sl self-end">
-              {{activity.onDutyUser}}
-            </view>
-          </view>
-          <view wx:if="{{team.activities.length == 0}}" class="align-center justify-center dashed activity">
-            今天没有值班
-          </view>
-        </view>
-      </swiper-item>
-    </swiper>
-</view>
+<login wx:if="{{!hasUserInfo}}" bind:load="loadData" />
+<block wx:else>
+  <swiper class="height-100vh" indicator-dots="true">
+    <swiper-item>
+      <swiper-page name="我的值班" activities="{{myActivities}}" bind:settings="manageUser" bind:activity="manageActivity" />
+    </swiper-item>
+    <swiper-item wx:for="{{myTeams}}" wx:for-item="team" wx:key="_id">
+      <swiper-page team="{{team}}" bind:activity="manageActivity" bind:favor="reorderTeam" bind:settings="manageTeam" />
+    </swiper-item>
+  </swiper>
+  <modal-page modal="{{modal}}" bind:close="closeModal" bind:save="saveData"/>
+</block>

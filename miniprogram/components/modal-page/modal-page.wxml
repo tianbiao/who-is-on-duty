@@ -1,0 +1,11 @@
+<view class="modal {{modal.show?'show':''}}">
+  <view class="entire-page {{direction}} dialog flex flex-direction">
+    <view class="flex-sub scroll-y">
+      <manage-activity wx:if="{{modal.type=='activity'}}" activity="{{modal.data}}" bind:toggleSave="toggleSave" />
+    </view>
+    <view class="flex justify-between margin-lr-15">
+      <button class="cu-btn line-black radius flex-sub lg margin-tb-lg margin-lr-15" bindtap="triggerClose">取消</button>
+      <button class="cu-btn bg-black radius flex-sub lg margin-tb-lg margin-lr-15" disabled="{{disableSave}}" bindtap="triggerSave">保存</button>
+    </view>
+  </view>
+</view>

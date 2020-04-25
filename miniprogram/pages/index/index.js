@@ -1,26 +1,59 @@
 const util = require('../../utils/util.js');
 
-const app = getApp()
+const app = getApp();
 
 Page({
   data: {
     today: util.formatDate(new Date()),
-    ondutyData: [],
-    hasUserInfo: false
+    myTeams: [],
+    myActivities: [],
+    hasUserInfo: false,
+    modal: {
+      show: false,
+      type: '',
+      data: {},
+    },
   },
-  //事件处理函数
-  manageActivity(event) {
-    const activity = event.currentTarget.dataset.activtityname;
-    const team = event.currentTarget.dataset.teamname;
-    wx.navigateTo({
-      url: '../activity/activity?team=' + team + '&activity=' + activity,
+  manageUser: function (event) {
+    console.log(event.detail);
+  },
+  manageActivity: function (event) {
+    this.setData({
+      modal: {
+        show: true,
+        type: 'activity',
+        data: event.detail,
+      },
     });
   },
-  manageTeam(event) {
-    const teamId = event.currentTarget.dataset.teamid;
+  manageTeam: function (event) {
+    // this.setData({
+    //   modal: {
+    //     show: true,
+    //     type: 'team',
+    //     data: event.detail,
+    //   },
+    // });
+
+    const teamId = event.detail._id;
     wx.navigateTo({
       url: '../team/team?teamid=' + teamId,
     });
+  },
+  reorderTeam: function (event) {
+    console.log(event.detail);
+  },
+  closeModal: function () {
+    this.setData({
+      modal: {
+        show: false,
+        type: '',
+        data: {},
+      },
+    });
+  },
+  saveData: function (event) {
+    console.log(event.detail);
   },
   onLoad: function () {
     wx.showShareMenu({
@@ -28,11 +61,11 @@ Page({
     });
   },
   loadData() {
-    if(app.globalData.ondutyData){
+    if (app.globalData.ondutyData) {
       this.setData({
-        ondutyData: app.globalData.ondutyData,
-        hasUserInfo: true
-      })
+        myTeams: app.globalData.ondutyData,
+        hasUserInfo: true,
+      });
     }
-  }
+  },
 });
