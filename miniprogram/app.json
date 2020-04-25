@@ -1,7 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/activity/activity"
+    "pages/activity/activity",
+    "pages/team/team"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

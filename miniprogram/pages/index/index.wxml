@@ -1,7 +1,5 @@
-<!--index.wxml-->
-<view>
-  <button type="primary" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="margin-top-200"> 获取昵称</button>
-  <block wx:else>
+<login wx:if="{{!hasUserInfo}}" bind:load="loadData"/>
+<view wx:else>
     <swiper class="height-100vh" indicator-dots="true">
       <swiper-item wx:for="{{ondutyData}}" wx:for-item="team" wx:key="name" class="overflow-y">
         <view class="padding margin-bottom-xl">
@@ -11,7 +9,7 @@
             </view>
             <view wx:if="{{team._id}}">
               <text class="cuIcon-favor margin-lr-xs" />
-              <text class="cuIcon-settings margin-lr-xs" />
+              <text class="cuIcon-settings margin-lr-xs" data-teamid='{{team._id}}' bindtap="manageTeam"/>
             </view>
           </view>
           <view wx:for="{{team.activities}}" wx:key="name" wx:for-item="activity"
@@ -31,5 +29,4 @@
         </view>
       </swiper-item>
     </swiper>
-  </block>
 </view>
