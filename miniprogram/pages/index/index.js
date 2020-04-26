@@ -1,6 +1,7 @@
 const util = require('../../utils/util.js');
 
-const app = getApp();
+const app = getApp()
+const db = wx.cloud.database()
 
 Page({
   data: {
@@ -53,8 +54,19 @@ Page({
       },
     });
   },
-  saveData: function (event) {
-    console.log(event.detail);
+  async saveData(event) {
+    console.log('saveData activity:', event.detail);
+    await db.collection('activities').doc(event.detail.activity._id).update({
+      data: {
+        name: event.detail.name,
+        bgimg: event.detail.bgimg,
+        desc: event.detail.desc,
+        on_duty_user: event.detail.onDutyUser._id,
+        participators: event.detail.participators.map(e => e._id),
+        rotate: event.detail.rotate,
+      }
+    })
+    this.closeModal()
   },
   onLoad: function () {
     wx.showShareMenu({

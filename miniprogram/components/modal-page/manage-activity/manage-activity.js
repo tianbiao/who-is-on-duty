@@ -10,6 +10,8 @@ Component({
     desc: '',
     onDutyUser: {},
     onDutyIdx: 0,
+    rotate: '',
+    rotateIdx: 0,
     participators: [],
     bgimg: '',
     bgimgIdx: 0,
@@ -23,17 +25,19 @@ Component({
     teamMembers: [],
     flexWrapFix: true,
     disableSave: true,
+    activityRotate: ['每天', '每周']
   },
   lifetimes: {
     attached: function () {
-      const { activity, bgimgList } = this.data;
-      console.log(activity);
+      const { activity, bgimgList, activityRotate } = this.data;
       this.setData({
         disableSave: true,
         name: activity.name,
         desc: activity.desc,
         onDutyUser: activity.onDutyUser,
-        onDutyIdx: activity.participators.indexOf(activity.onDutyUser),
+        onDutyIdx: activity.participators.findIndex(e => e._id === activity.onDutyUser._id),
+        rotate: activity.rotate,
+        rotateIdx: activityRotate.indexOf(activity.rotate),
         bgimg: activity.bgimg,
         bgimgIdx: bgimgList.indexOf(activity.bgimg),
         participators: activity.participators,
@@ -42,8 +46,7 @@ Component({
           isParticipator: activity.participators.filter(u => user._id === u._id).length > 0,
         }))
       });
-      console.log('participators:', activity.participators)
-      console.log('teamMembers:', this.data.teamMembers)
+      console.log('this.data:', this.data)
     },
     ready: function () {
       const query = wx.createSelectorQuery().in(this);
@@ -67,14 +70,15 @@ Component({
     },
   },
   observers: {
-    'name, desc, onDutyUser, participators, bgimg': function (name, desc, onDutyUser, participators, bgimg) {
-      const { activity } = this.data;
+    'name, desc, onDutyUser, participators, bgimg, rotate': function (name, desc, onDutyUser, participators, bgimg, rotate) {
+      const { activity } = this.data
       if (
         name !== activity.name
         || desc !== activity.desc
         || onDutyUser !== activity.onDutyUser
         || participators !== activity.participators
         || bgimg !== activity.bgimg
+        || rotate !== activity.rotate
       ) {
         this.setData({ disableSave: participators.length === 0 });
       } else {
@@ -98,6 +102,13 @@ Component({
       this.setData({
         onDutyIdx: event.detail.value,
         onDutyUser: participators[event.detail.value],
+      });
+    },
+    changeRotate(event) {
+      const { activityRotate } = this.data;
+      this.setData({
+        rotateIdx: event.detail.value,
+        rotate: activityRotate[event.detail.value]
       });
     },
     changedParticipators: function (event) {

@@ -10,9 +10,17 @@
     </view>
     <view class="cu-form-group">
       <view class="title cuIcon-selection with-space">今日值班</view>
-      <picker bindchange="changeOnDutyUser" value="{{onDutyIdx}}" range="{{participators}}" range-key="name">
+      <picker bindchange="changeOnDutyUser" value="{{rotateIdx}}" range="{{participators}}" range-key="name">
         <view class="picker">
           {{onDutyUser.name}}
+        </view>
+      </picker>
+    </view>
+    <view class="cu-form-group">
+      <view class="title cuIcon-timefill with-space">轮换周期</view>
+      <picker bindchange="changeRotate" value="{{rotateIdx}}" range="{{activityRotate}}">
+        <view class="picker">
+          {{activityRotate[rotateIdx]}}
         </view>
       </picker>
     </view>

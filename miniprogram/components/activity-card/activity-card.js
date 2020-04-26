@@ -11,18 +11,20 @@ Component({
     onDutyUser: Object,
     bgimg: String,
     participators: Array,
+    rotate: String
   },
   lifetimes: {
     attached: function () {
-      const { _id, name, desc, on_duty_user, bgimg, participators, activity } = this.data;
+      const { _id, name, desc, onDutyUser, bgimg, participators, rotate, activity } = this.data;
       if (activity) {
         this.setData({
           _id: _id || activity._id,
           name: name || activity.name,
           desc: desc || activity.desc,
-          onDutyUser: on_duty_user || activity.on_duty_user,
+          onDutyUser: onDutyUser || activity.on_duty_user,
           bgimg: bgimg || activity.bgimg,
           participators: participators.length > 0 ? participators : activity.participators,
+          rotate: rotate || activity.rotate
         });
       }
     },
