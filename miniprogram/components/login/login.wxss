@@ -1,1 +1,19 @@
 @import "../../colorui/main.wxss";
+@import "../../colorui/icon.wxss";
+
+.loading-container {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+image.loading::before {
+  background-color: transparent;
+}
+
+image.loading::after {
+  width: 100rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 100rpx;
+}

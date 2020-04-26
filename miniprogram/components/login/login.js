@@ -38,10 +38,6 @@ Component({
         });
       } else {
         app.globalData.user = userData[0]
-        this.setData({
-          hasUser: true,
-          loading: false
-        });
         await this.loadData()
       }
     },
@@ -113,6 +109,9 @@ Component({
       }
       app.globalData.teams = teams
       this.triggerEvent("load")
+      this.setData({
+        loading: false
+      });
     },
     async queryByIds(collectionName, ids){
       const queryResult = await db.collection(collectionName)
