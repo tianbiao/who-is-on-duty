@@ -25,7 +25,7 @@ Component({
     teamMembers: [],
     flexWrapFix: true,
     disableSave: true,
-    activityRotate: ['每天', '每周']
+    activityRotate: ['每天', '每周'],
   },
   lifetimes: {
     attached: function () {
@@ -44,9 +44,8 @@ Component({
         teamMembers: activity.teamMembers.map(user => ({
           user,
           isParticipator: activity.participators.filter(u => user._id === u._id).length > 0,
-        }))
+        })),
       });
-      console.log('this.data:', this.data)
     },
     ready: function () {
       const query = wx.createSelectorQuery().in(this);
@@ -70,8 +69,9 @@ Component({
     },
   },
   observers: {
-    'name, desc, onDutyUser, participators, bgimg, rotate': function (name, desc, onDutyUser, participators, bgimg, rotate) {
-      const { activity } = this.data
+    'name, desc, onDutyUser, participators, bgimg, rotate': function (
+      name, desc, onDutyUser, participators, bgimg, rotate) {
+      const { activity } = this.data;
       if (
         name !== activity.name
         || desc !== activity.desc
@@ -108,7 +108,7 @@ Component({
       const { activityRotate } = this.data;
       this.setData({
         rotateIdx: event.detail.value,
-        rotate: activityRotate[event.detail.value]
+        rotate: activityRotate[event.detail.value],
       });
     },
     changedParticipators: function (event) {
@@ -134,7 +134,7 @@ Component({
       this.triggerEvent('cancel');
     },
     save: function () {
-      this.triggerEvent('save', this.data);
+      this.triggerEvent('save', { type: 'activity', data: this.data });
     },
   },
 });

@@ -1,42 +1,24 @@
-.modal {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.2);
-  opacity: 0;
+
+.dialog {
+  position: fixed;
   transform: scale(1.2);
+  opacity: 0;
+  pointer-events: none;
   transition-duration: 0.4s;
 }
 
-.modal.show {
+view.show.dialog {
   opacity: 1;
-  transform: scale(1);
   pointer-events: auto;
-}
-
-.modal .dialog {
-  position: absolute;
-  transition-duration: 0.4s;
-}
-
-.modal.show .bottom.dialog {
-  bottom: 0;
-}
-
-.modal .bottom.dialog {
-  bottom: -100%;
-}
-
-.modal.show .top.dialog {
+  transform: scale(1);
   top: 0;
 }
 
-.modal .top.dialog {
+.bottom.dialog {
+  top: 100%;
+}
+
+.top.dialog {
   top: -100%;
 }
 

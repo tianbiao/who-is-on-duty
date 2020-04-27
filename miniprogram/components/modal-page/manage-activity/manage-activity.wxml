@@ -17,10 +17,10 @@
       </picker>
     </view>
     <view class="cu-form-group">
-      <view class="title cuIcon-timefill with-space">轮换周期</view>
+      <view class="title cuIcon-time with-space">轮换周期</view>
       <picker bindchange="changeRotate" value="{{rotateIdx}}" range="{{activityRotate}}">
         <view class="picker">
-          {{activityRotate[rotateIdx]}}
+          {{rotate}}
         </view>
       </picker>
     </view>

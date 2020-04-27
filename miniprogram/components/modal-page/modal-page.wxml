@@ -1,5 +1,7 @@
-<view class="modal {{modal.show?'show':''}}">
-  <view class="entire-page {{direction}} dialog">
-    <manage-activity wx:if="{{modal.type=='activity'}}" activity="{{modal.data}}" bind:save="passEvent" bind:cancel="passEvent" />
-  </view>
+<view class="{{modal.show&&modal.type==='activity'?'show':''}} entire-page bottom dialog">
+  <manage-activity wx:if="{{modal.type==='activity'}}" activity="{{modal.data}}" bind:save="passEvent" bind:cancel="passEvent" />
 </view>
+<view class="{{modal.show&&modal.type==='team'?'show':''}} entire-page top dialog">
+  <manage-team wx:if="{{modal.type==='team'}}" team="{{modal.data}}" bind:save="passEvent" bind:cancel="passEvent" bind:invite="passEvent" />
+</view>
+

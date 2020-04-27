@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "manage-activity": "manage-activity/manage-activity"
+    "manage-activity": "manage-activity/manage-activity",
+    "manage-team": "manage-team/manage-team"
   }
 }
