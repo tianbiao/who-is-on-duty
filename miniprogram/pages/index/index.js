@@ -41,7 +41,20 @@ Page({
     });
   },
   reorderTeam: function (event) {
-    console.log(event.detail);
+    const { user } = app.globalData;
+    const { myTeams } = this.data;
+    const idx = myTeams.indexOf(event.detail._id);
+    const team = myTeams.splice(idx, 1)[0];
+    myTeams.unshift(team);
+    user.teams = myTeams.map(team => (team._id));
+    db.collection('users').doc(user._id).update({
+      data: {
+        teams: user.teams,
+      },
+    });
+    this.setData({
+      myTeams,
+    });
   },
   closeModal: function () {
     this.setData({
@@ -155,7 +168,7 @@ Page({
         activityIds = activityIds.concat(team.activity_ids);
         userIds = userIds.concat(team.member_ids);
       });
-
+      myTeams.sort((a, b) => (user.teams.indexOf(a._id) - user.teams.indexOf(b._id)));
       if (userIds.length > 0) {
         users = await this.queryByIds('users', userIds);
       }
