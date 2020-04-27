@@ -1,4 +1,7 @@
 <login wx:if="{{!hasUserInfo}}" bind:load="loadData" />
+<view wx:elif="{{loading}}"class="loading-container">
+  <image class="loading large"/>
+</view>
 <view wx:else class="height-100vh overflow-hidden">
   <swiper class="height-100vh" indicator-dots="true">
     <swiper-item>

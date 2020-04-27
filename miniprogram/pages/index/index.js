@@ -2,6 +2,7 @@ const util = require('../../utils/util.js');
 
 const app = getApp();
 const db = wx.cloud.database();
+const _ = db.command;
 
 Page({
   data: {
@@ -11,6 +12,7 @@ Page({
     myActivities: [],
     hasUserInfo: false,
     invitedTeam: null,
+    loading: true,
     modal: {
       show: false,
       type: '',
@@ -104,8 +106,8 @@ Page({
     this.setData({ invitedTeam });
   },
   addUserToTeam: async function (invitedTeam) {
-    const { teams, user } = app.globalData;
-    if (teams.some(t => t._id === invitedTeam)) {
+    const { user } = app.globalData;
+    if (this.data.myTeams.some(t => t._id === invitedTeam)) {
       wx.showToast({
         title: '你已经加入过该团队了',
         icon: 'success',
@@ -116,7 +118,7 @@ Page({
       await Promise.all([
         db.collection('users').doc(user._id).update({
           data: {
-            teams: app.globalData.user.teams,
+            teams: user.teams,
           },
         }),
         db.collection('teams').doc(invitedTeam).update({
@@ -129,7 +131,9 @@ Page({
       const teamQueryResult = await db.collection('teams').where({
         _id: _.in(user.teams),
       }).get();
-      app.globalData.teams = teamQueryResult.data;
+      this.setData({
+        myTeams: teamQueryResult.data,
+      });
       wx.showToast({
         title: '加入成功',
         icon: 'success',
@@ -138,14 +142,49 @@ Page({
     }
   },
   loadData: async function () {
-    if (app.globalData.teams) {
-      const { invitedTeam } = this.data;
-      invitedTeam && await this.addUserToTeam(invitedTeam);
+    const { invitedTeam } = this.data;
+    invitedTeam && await this.addUserToTeam(invitedTeam);
+    const { user } = app.globalData;
+    const myTeams = await this.queryByIds('teams', user.teams);
+    let users;
+    let myActivities;
+    if (myTeams.length > 0) {
+      const activityIds = [];
+      const userIds = [];
+      myTeams.forEach(team => {
+        activityIds.push(team.activity_ids);
+        userIds.push(team.member_ids);
+      });
+
+      if (userIds.length > 0) {
+        users = await this.queryByIds('users', userIds);
+      }
+      if (activityIds.length > 0) {
+        const activities = await this.queryByIds('activities', activityIds);
+        myActivities = activities.map(activity => ({
+          ...activity,
+          on_duty_user: this.findById(users, activity.on_duty_user),
+          participators: activity.participators.map(member => (this.findById(member))),
+        }));
+      }
       this.setData({
-        myTeams: app.globalData.teams,
-        myActivities: app.globalData.activities.filter(a => a.on_duty_user._id === app.globalData.user._id),
-        hasUserInfo: true,
+        myTeams,
+        myActivities,
+        users,
       });
     }
+    this.setData({
+      hasUserInfo: true,
+      loading: false,
+    });
+  },
+  queryByIds: async function (collectionName, ids) {
+    const queryResult = await db.collection(collectionName).where({
+      _id: _.in(ids),
+    }).get();
+    return queryResult.data;
+  },
+  findById: function (collection, id) {
+    return collection.find(i => i._id === id) || {};
   },
 });
