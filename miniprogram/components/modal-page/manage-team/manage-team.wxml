@@ -1,0 +1,25 @@
+<view class="entire-page flex flex-direction">
+  <view class="flex-sub scroll-y">
+    <view class="cu-form-group">
+      <view class="title cuIcon-group with-space">团队名称</view>
+      <input value="{{name}}" bindblur="changeName" />
+    </view>
+    <view class="cu-bar bg-white margin-top">
+      <view class="action cuIcon-peoplelist with-space text-black">
+        团队成员
+      </view>
+    </view>
+    <view class="padding-bottom-xs padding-lr-sm team-members bg-white flex flex-wrap justify-between">
+      <label wx:for="{{members}}" wx:key="id">
+        <view class="cu-btn radius flex-sub lines-black margin-lr-xs margin-bottom-sm team-member"
+              style="background-size: {{bgSize}};background-position: {{item.x}}px {{item.y}}px;">
+          {{item.name}}
+        </view>
+      </label>
+      <view id="flex-wrap-fix" class="flex-sub {{flexWrapFix?'':'hide'}}" />
+      <button open-type="share" class="cu-btn radius line-black cuIcon-add with-space padding-lr" bindtap="invite">邀请成员</button>
+    </view>
+  </view>
+  <footer-buttons bind:cancel="cancel" bind:save="save" disableSave="{{disableSave}}" />
+</view>
+

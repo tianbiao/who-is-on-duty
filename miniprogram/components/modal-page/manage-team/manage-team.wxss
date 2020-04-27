@@ -1,0 +1,23 @@
+view.team-member {
+  background-image: url("https://hbimg.huabanimg.com/8c8f653a58e5da2c8ed65888649db825c8999b5c235830-IL4hDZ_fw658");
+  color: var(--white);
+}
+
+view.cu-btn.team-member::after {
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+.scroll-y {
+  overflow-y: auto;
+}
+
+.entire-page {
+  height: 100%;
+  width: 100%;
+  background-color: #f8f8f8;
+}
+
+button.cu-btn.radius {
+  width: inherit;
+}

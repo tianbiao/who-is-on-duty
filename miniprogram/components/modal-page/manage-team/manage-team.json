@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "footer-buttons": "../footer-buttons/footer-buttons"
+  }
+}
