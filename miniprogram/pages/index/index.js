@@ -149,11 +149,11 @@ Page({
     let users;
     let myActivities;
     if (myTeams.length > 0) {
-      const activityIds = [];
-      const userIds = [];
+      let activityIds = [];
+      let userIds = [];
       myTeams.forEach(team => {
-        activityIds.push(team.activity_ids);
-        userIds.push(team.member_ids);
+        activityIds = activityIds.concat(team.activity_ids);
+        userIds = userIds.concat(team.member_ids);
       });
 
       if (userIds.length > 0) {
@@ -164,14 +164,30 @@ Page({
         myActivities = activities.map(activity => ({
           ...activity,
           on_duty_user: this.findById(users, activity.on_duty_user),
-          participators: activity.participators.map(member => (this.findById(member))),
+          participators: activity.participators.map(member => (this.findById(users, member))),
         }));
+
+        myTeams.forEach(team => {
+          team.activities = []
+          team.members = []
+  
+          for(const index in team.activity_ids){
+            team.activities[index] = this.findById(myActivities, team.activity_ids[index])
+          }
+          for(const index in team.member_ids){
+            team.members[index] = this.findById(users, team.member_ids[index])
+          }
+        })
       }
+
       this.setData({
         myTeams,
         myActivities,
         users,
       });
+      console.log('myTeams:', myTeams)
+      console.log('myActivities:', myActivities)
+      console.log('users:', users)
     }
     this.setData({
       hasUserInfo: true,
