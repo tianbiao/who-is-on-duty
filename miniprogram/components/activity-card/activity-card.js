@@ -11,7 +11,9 @@ Component({
     onDutyUser: Object,
     bgimg: String,
     participators: Array,
-    rotate: String
+    rotate: String,
+    placeholder: String,
+    icon: String,
   },
   lifetimes: {
     attached: function () {
@@ -21,17 +23,26 @@ Component({
           _id: _id || activity._id,
           name: name || activity.name,
           desc: desc || activity.desc,
-          onDutyUser: onDutyUser || activity.on_duty_user,
+          onDutyUser: onDutyUser || activity.onDutyUser,
           bgimg: bgimg || activity.bgimg,
           participators: participators.length > 0 ? participators : activity.participators,
-          rotate: rotate || activity.rotate
+          rotate: rotate || activity.rotate,
         });
       }
     },
   },
   methods: {
     triggerActivity: function () {
-      this.triggerEvent('activity', this.data);
+      const { _id, name, desc, onDutyUser, bgimg, participators, rotate, activity } = this.data;
+      this.triggerEvent('activity', {
+        _id,
+        name,
+        desc,
+        onDutyUser,
+        bgimg,
+        participators,
+        rotate,
+      });
     },
   },
 });

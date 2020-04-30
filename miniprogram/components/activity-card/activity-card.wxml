@@ -1,5 +1,12 @@
+<view wx:if="{{placeholder}}"
+      class="radius flex padding-tb padding-lr-xl activity-card {{noMargin ? 'margin-lr' : 'margin'}} align-center justify-center dashed"
+      bindtap="triggerActivity">
+  <view class="cuIcon-{{icon}} with-space">
+    {{placeholder}}
+  </view>
+</view>
 <view
-    wx:if="{{name}}"
+    wx:else
     class="radius flex padding-tb padding-lr-xl activity-card {{noMargin ? 'margin-lr' : 'margin'}} bg-img bg-mask text-white"
     style="background-image: url('{{bgimg}}');"
     bindtap="triggerActivity"
@@ -12,6 +19,4 @@
     {{onDutyUser.name}}
   </view>
 </view>
-<view wx:else class="radius flex padding-tb padding-lr-xl activity-card {{noMargin ? 'margin-lr' : 'margin'}} align-center justify-center dashed">
-  暂无值班
-</view>
+

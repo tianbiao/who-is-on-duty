@@ -6,15 +6,19 @@ Component({
     activity: Object,
   },
   data: {
+    _id: '',
     name: '',
     desc: '',
     onDutyUser: {},
-    onDutyIdx: 0,
     rotate: '',
-    rotateIdx: 0,
     participators: [],
     bgimg: '',
+    onDutyIdx: 0,
     bgimgIdx: 0,
+    rotateIdx: 0,
+    teamMembers: [],
+    flexWrapFix: true,
+    disableSave: true,
     bgimgList: [
       'https://goss1.veer.com/creative/vcg/veer/612/veer-310544626.jpg',
       'https://goss1.veer.com/creative/vcg/veer/612/veer-309964695.jpg',
@@ -22,9 +26,6 @@ Component({
       'https://goss1.veer.com/creative/vcg/veer/612/veer-153462540.jpg',
       'https://goss4.veer.com/creative/vcg/veer/612/veer-158618183.jpg',
     ],
-    teamMembers: [],
-    flexWrapFix: true,
-    disableSave: true,
     activityRotate: ['每天', '每周'],
   },
   lifetimes: {
@@ -32,18 +33,20 @@ Component({
       const { activity, bgimgList, activityRotate } = this.data;
       this.setData({
         disableSave: true,
-        name: activity.name,
-        desc: activity.desc,
-        onDutyUser: activity.onDutyUser,
-        onDutyIdx: activity.participators.findIndex(e => e._id === activity.onDutyUser._id),
-        rotate: activity.rotate,
-        rotateIdx: activityRotate.indexOf(activity.rotate),
-        bgimg: activity.bgimg,
-        bgimgIdx: bgimgList.indexOf(activity.bgimg),
-        participators: activity.participators,
+        _id: activity._id || '',
+        name: activity.name || '',
+        desc: activity.desc || '',
+        onDutyUser: activity.onDutyUser || null,
+        onDutyIdx: activity.participators
+          && activity.participators.findIndex(e => e._id === activity.onDutyUser._id) || 0,
+        rotate: activity.rotate || '',
+        rotateIdx: activityRotate.indexOf(activity.rotate) || 0,
+        bgimg: activity.bgimg || '',
+        bgimgIdx: bgimgList.indexOf(activity.bgimg) || 0,
+        participators: activity.participators || [],
         teamMembers: activity.teamMembers.map(user => ({
-          user,
-          isParticipator: activity.participators.filter(u => user._id === u._id).length > 0,
+          ...user,
+          isParticipator: (activity.participators || []).some(u => user._id === u._id),
         })),
       });
     },
@@ -112,15 +115,14 @@ Component({
       });
     },
     changedParticipators: function (event) {
-      const { participators, onDutyIdx } = this.data;
-      const currentOnDutyUser = participators[onDutyIdx];
-      const currentOnDutyUserIndex = event.detail.value.findIndex(user => user === currentOnDutyUser);
-      const participatorsNew = event.detail.value;
+      const { teamMembers, onDutyUser } = this.data;
+      const currentOnDutyUserIndex = event.detail.value.findIndex(user => user === onDutyUser._id);
+      const participatorsNew = teamMembers.filter(member => (event.detail.value.includes(member._id)));
       const onDutyIdxNew = currentOnDutyUserIndex < 0 ? 0 : currentOnDutyUserIndex;
       this.setData({
         participators: participatorsNew,
         onDutyIdx: onDutyIdxNew,
-        onDutyUser: participatorsNew[onDutyIdxNew],
+        onDutyUser: participatorsNew.length > 0 && participatorsNew[onDutyIdxNew],
       });
     },
     changeBgimg: function (event) {
@@ -134,7 +136,26 @@ Component({
       this.triggerEvent('cancel');
     },
     save: function () {
-      this.triggerEvent('save', { type: 'activity', data: this.data });
+      const {
+        _id,
+        name,
+        desc,
+        onDutyUser,
+        rotate,
+        participators,
+        bgimg,
+      } = this.data;
+      this.triggerEvent('save', {
+        type: 'activity', data: {
+          _id,
+          name,
+          desc,
+          onDutyUser,
+          rotate,
+          participators,
+          bgimg,
+        },
+      });
     },
   },
 });

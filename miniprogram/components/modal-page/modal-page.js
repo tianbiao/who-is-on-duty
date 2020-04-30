@@ -1,4 +1,3 @@
-// components/modal-page/modal-page.js
 Component({
   options: {
     styleIsolation: 'apply-shared',

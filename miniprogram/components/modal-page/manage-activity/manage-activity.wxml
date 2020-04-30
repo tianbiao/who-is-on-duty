@@ -2,17 +2,17 @@
   <view class="flex-sub scroll-y">
     <view class="cu-form-group">
       <view class="title cuIcon-calendar with-space">活动名称</view>
-      <input value="{{name}}" bindblur="changeName" />
+      <input value="{{name}}" bindblur="changeName" placeholder="请输入活动名称"/>
     </view>
     <view class="cu-form-group">
       <view class="title cuIcon-comment with-space">活动描述</view>
-      <input value="{{desc}}" bindblur="changeDesc" />
+      <input value="{{desc}}" bindblur="changeDesc" placeholder="请输入活动描述" />
     </view>
     <view class="cu-form-group">
       <view class="title cuIcon-selection with-space">今日值班</view>
       <picker bindchange="changeOnDutyUser" value="{{rotateIdx}}" range="{{participators}}" range-key="name">
         <view class="picker">
-          {{onDutyUser.name}}
+          {{onDutyUser?onDutyUser.name:'请选择值班成员...'}}
         </view>
       </picker>
     </view>
@@ -31,10 +31,10 @@
     </view>
     <checkbox-group class="padding-bottom-xs padding-lr-sm team-members bg-white flex flex-wrap justify-between" bindchange="changedParticipators">
       <label wx:for="{{teamMembers}}" wx:key="id">
-        <checkbox class="hide" value="{{item.user.name}}" checked="{{item.isParticipator}}"></checkbox>
+        <checkbox class="hide" value="{{item._id}}" checked="{{item.isParticipator}}"></checkbox>
         <view class="cu-btn radius flex-sub lines-black margin-lr-xs margin-bottom-sm team-member"
               style="background-size: {{bgSize}};background-position: {{item.x}}px {{item.y}}px;">
-          {{item.user.name}}
+          {{item.name}}
         </view>
       </label>
       <view id="flex-wrap-fix" class="flex-sub {{flexWrapFix?'':'hide'}}" />

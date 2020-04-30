@@ -66,6 +66,7 @@ Page({
     });
   },
   saveData: async function (event) {
+    console.log(event.detail);
     const { type, data } = event.detail;
     switch (type) {
       case 'activity':
@@ -79,8 +80,9 @@ Page({
     }
     this.closeModal();
   },
-  saveActivity: function ({ activity: { _id }, name, desc, onDutyUser: { _id: on_duty_user }, participators, rotate }) {
-    return db.collection('activities').doc(_id).update({
+  saveActivity: async function (activity) {
+    const { _id, name, desc, onDutyUser: { _id: on_duty_user }, participators, rotate, bgimg } = activity;
+    await db.collection('activities').doc(_id).update({
       data: {
         name,
         desc,
@@ -90,6 +92,17 @@ Page({
         participators: participators.map(e => e._id),
       },
     });
+    const { myActivities, myTeams } = this.data;
+    const activityIdx = myActivities.findIndex(thisActivity => (thisActivity._id === _id));
+    activityIdx > -1 && this.setData({
+      [`myActivities[${activityIdx}]`]: activity,
+    });
+    const teamIdx = myTeams.findIndex(team => (team.activity_ids.includes(_id)));
+    const teamActivityIdx = myTeams[teamIdx].activities.findIndex(thisActivity => (thisActivity._id === _id));
+    this.setData({
+      [`myTeams[${teamIdx}].activities[${teamActivityIdx}]`]: activity,
+    });
+    console.log(this.data.myTeams)
   },
   saveTeam: function ({ team: { _id }, name }) {
     return db.collection('teams').doc(_id).update({
@@ -102,8 +115,8 @@ Page({
     const { name, _id } = event.detail;
     const userName = app.globalData.user.name;
     return {
-      title: userName + '邀请你加入: ' + name,
-      path: 'pages/index/index?invitedTeam=' + _id,
+      title: `${userName} 邀请你加入: ${name}`,
+      path: `pages/index/index?invitedTeam=${_id}`,
       success() {
         wx.showShareMenu({
           withShareTicket: true,
@@ -162,11 +175,11 @@ Page({
     let users;
     let myActivities;
     if (myTeams.length > 0) {
-      let activityIds = [];
-      let userIds = [];
+      const activityIds = [];
+      const userIds = [];
       myTeams.forEach(team => {
-        activityIds = activityIds.concat(team.activity_ids);
-        userIds = userIds.concat(team.member_ids);
+        activityIds.push(...team.activity_ids);
+        userIds.push(...team.member_ids);
       });
       myTeams.sort((a, b) => (user.teams.indexOf(a._id) - user.teams.indexOf(b._id)));
       if (userIds.length > 0) {
@@ -174,23 +187,17 @@ Page({
       }
       if (activityIds.length > 0) {
         const activities = await this.queryByIds('activities', activityIds);
-        myActivities = activities.map(activity => ({
-          ...activity,
-          on_duty_user: this.findById(users, activity.on_duty_user),
-          participators: activity.participators.map(member => (this.findById(users, member))),
-        }));
+        activities.forEach(activity => {
+          activity.onDutyUser = this.findById(users, activity.on_duty_user);
+          activity.participators = activity.participators.map(member => (this.findById(users, member)));
+        });
 
         myTeams.forEach(team => {
-          team.activities = []
-          team.members = []
-  
-          for(const index in team.activity_ids){
-            team.activities[index] = this.findById(myActivities, team.activity_ids[index])
-          }
-          for(const index in team.member_ids){
-            team.members[index] = this.findById(users, team.member_ids[index])
-          }
-        })
+          team.activities = team.activity_ids.map(id => (this.findById(activities, id)));
+          team.members = team.member_ids.map(id => (this.findById(users, id)));
+        });
+
+        myActivities = activities.filter(activity => (activity.onDutyUser._id === user._id));
       }
 
       this.setData({
@@ -198,9 +205,9 @@ Page({
         myActivities,
         users,
       });
-      console.log('myTeams:', myTeams)
-      console.log('myActivities:', myActivities)
-      console.log('users:', users)
+      console.log('myTeams:', myTeams);
+      console.log('myActivities:', myActivities);
+      console.log('users:', users);
     }
     this.setData({
       hasUserInfo: true,

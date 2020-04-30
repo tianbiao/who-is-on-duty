@@ -8,6 +8,6 @@
         activity="{{activity}}"
         bind:activity="manageActivity"
     />
-    <activity-card wx:if="{{activities.length == 0}}" />
+    <activity-card wx:if="{{activities.length == 0}}" placeholder="暂无值班"/>
   </view>
 </scroll-view>

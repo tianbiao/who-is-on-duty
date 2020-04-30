@@ -68,5 +68,9 @@ Component({
     save: function () {
       this.triggerEvent('save', { type: 'team', data: this.data });
     },
+    createActivity: function () {
+      const { members } = this.data;
+      this.triggerEvent('activity', { teamMembers: members });
+    },
   },
 });
