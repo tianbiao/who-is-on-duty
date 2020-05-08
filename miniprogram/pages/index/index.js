@@ -103,6 +103,12 @@ Page({
       [`myTeams[${teamIdx}].activities[${teamActivityIdx}]`]: activity,
     });
     console.log(this.data.myTeams)
+    this.setData({
+      myTeams: []
+    })
+    this.setData({
+      myTeams
+    })
   },
   saveTeam: function ({ team: { _id }, name }) {
     return db.collection('teams').doc(_id).update({
