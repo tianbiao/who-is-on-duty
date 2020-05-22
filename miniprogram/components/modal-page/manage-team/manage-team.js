@@ -1,3 +1,5 @@
+const app = getApp();
+
 Component({
   options: {
     styleIsolation: 'apply-shared',
@@ -30,6 +32,8 @@ Component({
         name: team.name,
         members: team.members,
       });
+      app.globalData.invitedTeamName = team.name;
+      app.globalData.invitedTeamId = team._id;
     },
     ready: function () {
       const query = wx.createSelectorQuery().in(this);
@@ -57,10 +61,6 @@ Component({
       this.setData({
         name: event.detail.value,
       });
-    },
-    invite: function () {
-      const { name, team: { _id } } = this.data;
-      this.triggerEvent('invite', { name, _id });
     },
     cancel: function () {
       this.triggerEvent('cancel');

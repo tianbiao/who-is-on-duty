@@ -117,31 +117,35 @@ Page({
       },
     });
   },
-  inviteTeamMember: function (event) {
-    const { name, _id } = event.detail;
+  onShareAppMessage(options) {
     const userName = app.globalData.user.name;
-    return {
-      title: `${userName} 邀请你加入: ${name}`,
-      path: `pages/index/index?invitedTeam=${_id}`,
-      success() {
-        wx.showShareMenu({
-          withShareTicket: true,
-        });
-      },
-    };
+    const name = app.globalData.invitedTeamName;
+    const id = app.globalData.invitedTeamId;
+    if (options && options.from == 'button') {
+      return {
+        title: `${userName} 邀请你加入: ${name}`,
+        path: 'pages/index/index?invitedTeam=' + id,
+        success() {
+          wx.showShareMenu({
+            withShareTicket: true,
+          });
+        },
+      };
+    }
   },
   onLoad: function (options) {
     wx.showShareMenu({
       withShareTicket: true,
     });
     const { invitedTeam } = options;
+    console.log('options:', options)
     this.setData({ invitedTeam });
   },
   addUserToTeam: async function (invitedTeam) {
     const { user } = app.globalData;
-    if (this.data.myTeams.some(t => t._id === invitedTeam)) {
+    if (user.teams.some(t => t === invitedTeam)) {
       wx.showToast({
-        title: '你已经加入过该团队了',
+        title: '你已经在该团队了',
         icon: 'success',
         duration: 2000,
       });
@@ -155,7 +159,7 @@ Page({
         }),
         db.collection('teams').doc(invitedTeam).update({
           data: {
-            members: _.push(user._id),
+            member_ids: _.push(user._id),
           },
         }),
       ]);

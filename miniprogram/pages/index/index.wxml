@@ -11,5 +11,5 @@
       <swiper-page team="{{team}}" bind:activity="manageActivity" bind:favor="reorderTeam" bind:settings="manageTeam" />
     </swiper-item>
   </swiper>
-  <modal-page modal="{{modal}}" bind:cancel="closeModal" bind:save="saveData" bind:invite="inviteTeamMember" bind:activity="manageActivity" />
+  <modal-page modal="{{modal}}" bind:cancel="closeModal" bind:save="saveData" bind:activity="manageActivity" />
 </view>

@@ -17,7 +17,7 @@
         </view>
       </label>
       <view id="flex-wrap-fix" class="flex-sub {{flexWrapFix?'':'hide'}}" />
-      <button open-type="share" class="cu-btn radius line-black cuIcon-add with-space padding-lr" bindtap="invite">邀请成员</button>
+      <button open-type="share" class="cu-btn radius line-black cuIcon-add with-space padding-lr" >邀请成员</button>
     </view>
     <activity-card bind:activity="createActivity" placeholder="创建活动" icon="add" />
   </view>
