@@ -46,7 +46,7 @@
     </view>
     <swiper class="bg-white" style="height: 315rpx" indicator-dots="true" current="{{bgimgIdx}}" bindchange="changeBgimg">
       <swiper-item wx:for="{{bgimgList}}" wx:key="index">
-        <activity-card name="{{name}}" desc="{{desc}}" onDutyUser="{{participators[onDutyIdx]}}" bgimg="{{item}}" noMargin="true" />
+        <activity-card name="{{name || '活动名称'}}" desc="{{desc || '活动描述'}}" onDutyUser="{{participators[onDutyIdx]}}" bgimg="{{item}}" noMargin="true" />
       </swiper-item>
     </swiper>
   </view>

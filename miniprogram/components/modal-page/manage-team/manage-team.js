@@ -8,6 +8,7 @@ Component({
     team: Object,
   },
   data: {
+    _id: '',
     name: '',
     members: [],
     disableSave: true,
@@ -28,6 +29,7 @@ Component({
     attached: function () {
       const { team } = this.data;
       this.setData({
+        _id: team._id,
         disableSave: true,
         name: team.name,
         members: team.members,
@@ -41,7 +43,7 @@ Component({
       query.selectAll('.team-member').boundingClientRect();
       query.select('#flex-wrap-fix').boundingClientRect();
       query.exec(([containerBounding, memberBounding, flexWrapFix]) => {
-        flexWrapFix = flexWrapFix.left > memberBounding[0].left;
+        flexWrapFix = memberBounding.length > 0 && flexWrapFix.left > memberBounding[0].left;
         const offset = (containerBounding.width * 1.15 - containerBounding.height) / 2;
         this.setData({
           flexWrapFix,
@@ -69,8 +71,8 @@ Component({
       this.triggerEvent('save', { type: 'team', data: this.data });
     },
     createActivity: function () {
-      const { members } = this.data;
-      this.triggerEvent('activity', { teamMembers: members });
+      const { members, _id } = this.data;
+      this.triggerEvent('activity', { teamId: _id, teamMembers: members });
     },
   },
 });

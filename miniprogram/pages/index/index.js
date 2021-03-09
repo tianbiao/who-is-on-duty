@@ -43,7 +43,7 @@ Page({
   reorderTeam: function (event) {
     const { user } = app.globalData;
     const { myTeams } = this.data;
-    const idx = myTeams.indexOf(event.detail._id);
+    const idx = myTeams.findIndex((team) => (team._id === event.detail._id));
     const team = myTeams.splice(idx, 1)[0];
     myTeams.unshift(team);
     user.teams = myTeams.map(team => (team._id));
@@ -81,34 +81,61 @@ Page({
     this.closeModal();
   },
   saveActivity: async function (activity) {
-    const { _id, name, desc, onDutyUser: { _id: on_duty_user }, participators, rotate, bgimg } = activity;
-    await db.collection('activities').doc(_id).update({
-      data: {
-        name,
-        desc,
-        bgimg,
-        rotate,
-        on_duty_user,
-        participators: participators.map(e => e._id),
-      },
-    });
+    const { _id, teamId, name, desc, onDutyUser: { _id: on_duty_user }, participators, rotate, bgimg } = activity;
     const { myActivities, myTeams } = this.data;
-    const activityIdx = myActivities.findIndex(thisActivity => (thisActivity._id === _id));
-    activityIdx > -1 && this.setData({
-      [`myActivities[${activityIdx}]`]: activity,
+    if (_id) {
+      await db.collection('activities').doc(_id).update({
+        data: {
+          name,
+          desc,
+          bgimg,
+          rotate,
+          on_duty_user,
+          participators: participators.map(e => e._id),
+        },
+      });
+      const activityIdx = myActivities.findIndex(thisActivity => (thisActivity._id === _id));
+      activityIdx > -1 && this.setData({
+        [`myActivities[${activityIdx}]`]: activity,
+      });
+      const teamIdx = myTeams.findIndex(team => (team.activity_ids.includes(_id)));
+      const teamActivityIdx = myTeams[teamIdx].activities.findIndex(thisActivity => (thisActivity._id === _id));
+      this.setData({
+        [`myTeams[${teamIdx}].activities[${teamActivityIdx}]`]: activity,
+      });
+    } else {
+      const { _id } = await db.collection('activities').add({
+        data: {
+          name,
+          desc,
+          bgimg,
+          rotate,
+          on_duty_user,
+          participators: participators.map(e => e._id),
+        },
+      });
+      await db.collection('teams').doc(teamId).update({
+        data: {
+          activity_ids: _.push(_id),
+        },
+      });
+      activity._id = _id;
+      const { myActivities, myTeams } = this.data;
+      myActivities.push(activity);
+      this.setData({ myActivities });
+      const teamIdx = myTeams.findIndex((team) => (team._id === teamId));
+      const teamActivities = myTeams[teamIdx].activities;
+      teamActivities.push(activity);
+      this.setData({
+        [`myTeams[${teamIdx}].activities`]: teamActivities,
+      });
+    }
+    this.setData({
+      myTeams: [],
     });
-    const teamIdx = myTeams.findIndex(team => (team.activity_ids.includes(_id)));
-    const teamActivityIdx = myTeams[teamIdx].activities.findIndex(thisActivity => (thisActivity._id === _id));
     this.setData({
-      [`myTeams[${teamIdx}].activities[${teamActivityIdx}]`]: activity,
+      myTeams,
     });
-    console.log(this.data.myTeams)
-    this.setData({
-      myTeams: []
-    })
-    this.setData({
-      myTeams
-    })
   },
   saveTeam: function ({ team: { _id }, name }) {
     return db.collection('teams').doc(_id).update({
@@ -138,7 +165,6 @@ Page({
       withShareTicket: true,
     });
     const { invitedTeam } = options;
-    console.log('options:', options)
     this.setData({ invitedTeam });
   },
   addUserToTeam: async function (invitedTeam) {
@@ -215,9 +241,6 @@ Page({
         myActivities,
         users,
       });
-      console.log('myTeams:', myTeams);
-      console.log('myActivities:', myActivities);
-      console.log('users:', users);
     }
     this.setData({
       hasUserInfo: true,

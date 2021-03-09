@@ -1,7 +1,7 @@
 <view wx:if="{{placeholder}}"
       class="radius flex padding-tb padding-lr-xl activity-card {{noMargin ? 'margin-lr' : 'margin'}} align-center justify-center dashed"
       bindtap="triggerActivity">
-  <view class="cuIcon-{{icon}} with-space">
+  <view class="cuIcon-{{icon}}">
     {{placeholder}}
   </view>
 </view>

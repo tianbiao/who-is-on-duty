@@ -7,6 +7,7 @@ Component({
   },
   data: {
     _id: '',
+    teamId: '',
     name: '',
     desc: '',
     onDutyUser: {},
@@ -34,19 +35,20 @@ Component({
       this.setData({
         disableSave: true,
         _id: activity._id || '',
+        teamId: activity.teamId,
         name: activity.name || '',
         desc: activity.desc || '',
-        onDutyUser: activity.onDutyUser || null,
+        onDutyUser: activity.onDutyUser || (activity.participators && activity.participators[0]) || activity.teamMembers[0],
         onDutyIdx: activity.participators
           && activity.participators.findIndex(e => e._id === activity.onDutyUser._id) || 0,
-        rotate: activity.rotate || '',
+        rotate: activity.rotate || '每天',
         rotateIdx: activityRotate.indexOf(activity.rotate) || 0,
-        bgimg: activity.bgimg || '',
-        bgimgIdx: bgimgList.indexOf(activity.bgimg) || 0,
-        participators: activity.participators || [],
+        bgimg: activity.bgimg || bgimgList[0],
+        bgimgIdx: activity.bgimg ? bgimgList.indexOf(activity.bgimg) : 0,
+        participators: activity.participators || activity.teamMembers,
         teamMembers: activity.teamMembers.map(user => ({
           ...user,
-          isParticipator: (activity.participators || []).some(u => user._id === u._id),
+          isParticipator: activity.participators ? activity.participators.some(u => user._id === u._id) : true,
         })),
       });
     },
@@ -56,7 +58,7 @@ Component({
       query.selectAll('.team-member').boundingClientRect();
       query.select('#flex-wrap-fix').boundingClientRect();
       query.exec(([containerBounding, memberBounding, flexWrapFix]) => {
-        flexWrapFix = flexWrapFix.left > memberBounding[0].left;
+        flexWrapFix = memberBounding.length > 0 && flexWrapFix.left > memberBounding[0].left;
         const offset = (containerBounding.width * 1.15 - containerBounding.height) / 2;
         this.setData({
           flexWrapFix,
@@ -138,6 +140,7 @@ Component({
     save: function () {
       const {
         _id,
+        teamId,
         name,
         desc,
         onDutyUser,
@@ -148,6 +151,7 @@ Component({
       this.triggerEvent('save', {
         type: 'activity', data: {
           _id,
+          teamId,
           name,
           desc,
           onDutyUser,
