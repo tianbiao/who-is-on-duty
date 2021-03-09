@@ -27,7 +27,7 @@ Component({
       'https://goss1.veer.com/creative/vcg/veer/612/veer-153462540.jpg',
       'https://goss4.veer.com/creative/vcg/veer/612/veer-158618183.jpg',
     ],
-    activityRotate: ['每天', '每周'],
+    activityRotate: ['每天', '每周', '每月'],
   },
   lifetimes: {
     attached: function () {
